@@ -2,7 +2,7 @@ import pygame
 
 # scene
 WINDOW_WIDTH = 640
-WINDOW_HEIGHT = 480
+WINDOW_HEIGHT = 490
 
 # controlling
 LEFT_UP = pygame.K_w

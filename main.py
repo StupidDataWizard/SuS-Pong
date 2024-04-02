@@ -1,5 +1,6 @@
 import pygame
 import conf as c
+import random
 from pygame.math import Vector2
 
 # initialize pygame, must be called always at start
@@ -32,12 +33,21 @@ bar_right_pos = Vector2(c.WINDOW_WIDTH - c.BAR_POS, c.WINDOW_HEIGHT / 2)
 font1 = pygame.font.SysFont('chalkduster.ttf', 72)
 rendered_font = font1.render('You Lost!', True, c.WHITE)
 
+# ball color
+ball_color = list(c.WHITE)
 
-def handle_events():
+
+def handle_events(ball_color):
     # return false if game should be closed
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                # Change ball color to a random color
+                ball_color[0] = random.randint(0, 255)
+                ball_color[1] = random.randint(0, 255)
+                ball_color[2] = random.randint(0, 255)
 
     # dict: containing for each key 1 if pressed, otherwise 0
     keys = pygame.key.get_pressed()
@@ -46,12 +56,12 @@ def handle_events():
     bar_right_pos.y -= keys[pygame.K_i] * c.BAR_SPEED
     bar_right_pos.y += keys[pygame.K_k] * c.BAR_SPEED
 
-    return True
+    return True, ball_color
 
 
-def update_and_draw(ball_pos, ball_vel, bar_left_pos, bar_right_pos):
+def update_and_draw(ball_pos, ball_vel, bar_left_pos, bar_right_pos, ball_color):
     # draw
-    ball = pygame.draw.ellipse(screen, c.WHITE,
+    ball = pygame.draw.ellipse(screen, ball_color,
                                pygame.Rect(ball_pos, (c.BALL_RADIUS, c.BALL_RADIUS)))
     player_1 = pygame.draw.rect(screen, c.WHITE,
                                 pygame.Rect(bar_left_pos, (c.BAR_WIDTH, c.BAR_HEIGHT)))
@@ -79,10 +89,10 @@ def update_and_draw(ball_pos, ball_vel, bar_left_pos, bar_right_pos):
 # game loop
 while active:
     # react to user input
-    active = handle_events()
+    active = handle_events(ball_color)
 
     # draw elements and implement game logic
-    update_and_draw(ball_pos, ball_vel, bar_left_pos, bar_right_pos)
+    update_and_draw(ball_pos, ball_vel, bar_left_pos, bar_right_pos, ball_color)
 
     # renew window
     pygame.display.flip()
