@@ -42,12 +42,11 @@ def handle_events(ball_color):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             return False
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                # Change ball color to a random color
-                ball_color[0] = random.randint(0, 255)
-                ball_color[1] = random.randint(0, 255)
-                ball_color[2] = random.randint(0, 255)
+        # if event.type == pygame.KEYDOWN:
+            # if event.key == pygame.K_SPACE:
+                # ball_color[0] = random.randint(0, 255)
+                # ball_color[1] = random.randint(0, 255)
+                # ball_color[2] = random.randint(0, 255)
 
     # dict: containing for each key 1 if pressed, otherwise 0
     keys = pygame.key.get_pressed()
@@ -57,7 +56,6 @@ def handle_events(ball_color):
     bar_right_pos.y += keys[pygame.K_k] * c.BAR_SPEED
 
     return True, ball_color
-
 
 def update_and_draw(ball_pos, ball_vel, bar_left_pos, bar_right_pos, ball_color):
     # draw
@@ -71,6 +69,9 @@ def update_and_draw(ball_pos, ball_vel, bar_left_pos, bar_right_pos, ball_color)
     # collision detection logic
     if player_1.colliderect(ball) or player_2.colliderect(ball):
         # play sound we loaded before from start
+        ball_color[0] = random.randint(0, 255)
+        ball_color[1] = random.randint(0, 255)
+        ball_color[2] = random.randint(0, 255)
         pygame.mixer.music.play(0, 0)
         ball_vel.x *= -1
 
