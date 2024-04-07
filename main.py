@@ -34,7 +34,8 @@ font1 = pygame.font.SysFont('chalkduster.ttf', 72)
 rendered_font = font1.render('You Lost!', True, c.WHITE)
 
 # ball color
-ball_color = list(c.WHITE)
+# ball_color = list(c.WHITE)
+ball_color = c.WHITE
 
 
 def handle_events(ball_color):
@@ -57,8 +58,8 @@ def handle_events(ball_color):
 
     return True, ball_color
 
+
 def update_and_draw(ball_pos, ball_vel, bar_left_pos, bar_right_pos, ball_color):
-    # draw
     ball = pygame.draw.ellipse(screen, ball_color,
                                pygame.Rect(ball_pos, (c.BALL_RADIUS, c.BALL_RADIUS)))
     player_1 = pygame.draw.rect(screen, c.WHITE,
@@ -69,9 +70,10 @@ def update_and_draw(ball_pos, ball_vel, bar_left_pos, bar_right_pos, ball_color)
     # collision detection logic
     if player_1.colliderect(ball) or player_2.colliderect(ball):
         # play sound we loaded before from start
-        ball_color[0] = random.randint(0, 255)
-        ball_color[1] = random.randint(0, 255)
-        ball_color[2] = random.randint(0, 255)
+        # ball_color[0] = random.randint(0, 255)
+        # ball_color[1] = random.randint(0, 255)
+        # ball_color[2] = random.randint(0, 255)
+        ball_color = random.choice([c.RED, c.WHITE, c.ORANGE, c.GREEN])
         pygame.mixer.music.play(0, 0)
         ball_vel.x *= -1
 
@@ -86,14 +88,16 @@ def update_and_draw(ball_pos, ball_vel, bar_left_pos, bar_right_pos, ball_color)
 
     ball_pos += ball_vel
 
+    return ball_color, ball_vel
+
 
 # game loop
 while active:
     # react to user input
     active = handle_events(ball_color)
 
-    # draw elements and implement game logic
-    update_and_draw(ball_pos, ball_vel, bar_left_pos, bar_right_pos, ball_color)
+    # draw elements and implement game logic, overwrites the ball_color, ball_velocity
+    ball_color, ball_vel = update_and_draw(ball_pos, ball_vel, bar_left_pos, bar_right_pos, ball_color)
 
     # renew window
     pygame.display.flip()
