@@ -17,7 +17,7 @@ clock = pygame.time.Clock()
 
 # run the game until this is true
 pygame.mixer.music.load('sound/beep.wav')
-
+pygame.mixer.music.set_volume(0.5)
 # run the game until this is true
 active = True
 
